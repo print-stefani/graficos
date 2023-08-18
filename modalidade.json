@@ -1,0 +1,35 @@
+{
+"select st_entry_type, \r\n  COUNT(*) as count\r\nFROM payable.tb_document_docu tdd\r\nWHERE \r\n  id_corporate = '18908'\r\nGROUP BY st_entry_type\r\nORDER by st_entry_type": [
+	{
+		"st_entry_type" : "Crédito em Conta Corrente\/Salário",
+		"count" : 2152
+	},
+	{
+		"st_entry_type" : "Liquidação de Títulos do Próprio Banco",
+		"count" : 77
+	},
+	{
+		"st_entry_type" : "Pagamento de Contas e Tributos com Código de Barras",
+		"count" : 301
+	},
+	{
+		"st_entry_type" : "Pagamento de Títulos de Outros Bancos",
+		"count" : 176
+	},
+	{
+		"st_entry_type" : "TED – Mesma Titularidade",
+		"count" : 12
+	},
+	{
+		"st_entry_type" : "TED – Outra Titularidade",
+		"count" : 1326
+	},
+	{
+		"st_entry_type" : "Tributo -DARF Normal",
+		"count" : 5
+	},
+	{
+		"st_entry_type" : "Tributo -IPTU –Prefeituras",
+		"count" : 13
+	}
+]}
