@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="myChart" width="800" height="400"></canvas>
+
+  <script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    let currentChart;
+
+    const commonOptions = {
+      responsive: false,
+    };
+
+    const lineChartOptions = {
+      ...commonOptions,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+    const barChartOptions = {
+      ...commonOptions,
+      scales: {
+        x: {
+          beginAtZero: true
+        },
+        y: {
+          beginAtZero: true
+        }
+      }
+    };
+
+    const pieChartOptions = {
+      ...commonOptions
+    };
+
+    function createChart(type, jsonData) {
+      if (currentChart) {
+        currentChart.destroy();
+      }
+
+      const labels = jsonData.map(entry => entry.modalidade);
+      const dataValues = jsonData.map(entry => entry.count);
+
+      const data = {
+        labels: labels,
+        datasets: [{
+          label: 'Modalidade Pagamentos',
+          data: dataValues,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)'
+            ],
+          borderColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)'
+            ],       
+          borderWidth: 1
+         }] 
+      };
+
+      currentChart = new Chart(ctx, {
+        type: type,
+        data: data,
+        options: type === 'bar' ? barChartOptions : type === 'pie' ? pieChartOptions : lineChartOptions
+      });
+    }
+
+    const switchButton = document.createElement('button');
+    switchButton.innerText = 'Alternar Gráfico';
+    switchButton.onclick = function() {
+      if (currentChart) {
+        const nextType = currentChart.config.type === 'bar' ? 'pie' : currentChart.config.type === 'pie' ? 'line' : 'bar';
+        createChart(nextType, jsonData);
+      }
+    };
+
+    const jsonData = [
+    {
+		"modalidade" : "Crédito em Conta Bancária",
+		"count" : 2152
+	},
+	{
+		"modalidade" : "Liquidação de Títulos do Próprio Banco",
+		"count" : 77
+	},
+	{
+		"modalidade" : "Código de Barras",
+		"count" : 301
+	},
+	{
+		"modalidade" : "Títulos de Outros Bancos",
+		"count" : 176
+	},
+	{
+		"modalidade" : "TED",
+		"count" : 1338
+	},
+	{
+		"modalidade" : "Tributos",
+		"count" : 18
+	}
+    ];
+
+    document.body.appendChild(switchButton);
+    createChart('bar', jsonData); // Inicializa o gráfico de barras ao carregar a página
+  </script>
+</body>
+</html>
